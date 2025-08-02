@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eczvim - Pre-configured Neovim Setup</title>
+    <meta name="description" content="eczvim - A pre-configured Neovim setup with essential plugins, LSP, and customizations for enhanced development experience">
+    <meta name="keywords" content="eczvim, neovim, vim configuration, LSP, telescope, treesitter, lazy.nvim">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Prism.js for syntax highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-lua.min.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0a;
+            color: #e5e5e5;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .terminal-cursor::after {
+            content: '_';
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .code-block {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .plugin-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 255, 0.1));
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-neutral-900 text-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-neutral-900/90 backdrop-blur-sm border-b border-neutral-800 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <div class="text-green-500 font-mono text-xl">eczvim@site:~$</div>
+                <div class="flex space-x-6 font-mono text-sm">
+                    <a href="index.html" class="text-gray-300 hover:text-green-500 transition-colors"><i class="fas fa-arrow-left mr-1"></i>Back</a>
+                    <a href="#features" class="text-gray-300 hover:text-green-500 transition-colors">features</a>
+                    <a href="#installation" class="text-gray-300 hover:text-green-500 transition-colors">installation</a>
+                    <a href="#plugins" class="text-gray-300 hover:text-green-500 transition-colors">plugins</a>
+                    <a href="#mappings" class="text-gray-300 hover:text-green-500 transition-colors">mappings</a>
+                    <a href="#github" class="text-gray-300 hover:text-green-500 transition-colors">github</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6">
+                <span class="gradient-text">eczvim</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl text-green-500 font-mono mb-4 terminal-cursor">
+                Pre-configured Neovim Setup
+            </h2>
+            <p class="text-xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                A curated Neovim configuration with essential plugins, LSP support, 
+                and custom key mappings for enhanced development experience.
+            </p>
+            <div class="flex justify-center space-x-4">
+                <a href="#installation" class="bg-green-500 text-neutral-900 px-6 py-3 rounded-lg font-mono hover:bg-green-400 transition-colors">
+                    <i class="fas fa-download mr-2"></i>Install Now
+                </a>
+                <a href="https://github.com/eczdell/eczvim" target="_blank" class="border border-green-500 text-green-500 px-6 py-3 rounded-lg font-mono hover:bg-green-500 hover:text-neutral-900 transition-colors">
+                    <i class="fab fa-github mr-2"></i>View on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-mono text-green-500 mb-8 text-center">$ cat features.md</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- LSP Support -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">LSP Support</h3>
+                    <p class="text-gray-400 text-sm">Full Language Server Protocol support with nvim-lspconfig and mason.nvim</p>
+                </div>
+
+                <!-- Telescope -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">Telescope Fuzzy Finder</h3>
+                    <p class="text-gray-400 text-sm">Fast and powerful fuzzy finder for files, buffers, and grep operations</p>
+                </div>
+
+                <!-- Treesitter -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">Treesitter</h3>
+                    <p class="text-gray-400 text-sm">Advanced syntax highlighting and code parsing for better readability</p>
+                </div>
+
+                <!-- File Explorer -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-folder-tree"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">Nvim-Tree</h3>
+                    <p class="text-gray-400 text-sm">Tree-style file explorer with Git integration and custom icons</p>
+                </div>
+
+                <!-- Git Integration -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fab fa-git-alt"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">Git Integration</h3>
+                    <p class="text-gray-400 text-sm">LazyGit integration for seamless Git operations within Neovim</p>
+                </div>
+
+                <!-- Auto-completion -->
+                <div class="plugin-card bg-neutral-800 border border-neutral-700 rounded-lg p-6 hover-glow transition-all">
+                    <div class="text-green-500 text-3xl mb-4">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3 class="text-lg font-mono text-green-500 mb-2">Auto-completion</h3>
+                    <p class="text-gray-400 text-sm">Smart auto-completion with nvim-cmp and LuaSnip integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-mono text-green-500 mb-8 text-center">$ ./install.sh</h2>
+            
+            <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-8">
+                <h3 class="text-xl font-mono text-green-500 mb-4">Quick Installation</h3>
+                <p class="text-gray-300 mb-4">Get started with my personal Neovim configuration:</p>
+                
+                <div class="code-block">
+                    <code class="language-bash"># Backup existing Neovim config
+mv ~/.config/nvim ~/.config/nvim.backup 2>/dev/null || true
+
+# Clone eczvim
+git clone git@github.com:eczdell/eczvim.git ~/.config/nvim
+
+# Launch Neovim (plugins will auto-install)
+nvim</code>
+                </div>
+                
+                <div class="mt-6 p-4 bg-yellow-900/20 border border-yellow-600/50 rounded-lg">
+                    <p class="text-yellow-200 text-sm">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        <strong>Requirements:</strong> Neovim 0.8+, Git, Node.js (for some LSP servers), and a Nerd Font
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plugins Section -->
+    <section id="plugins" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-mono text-green-500 mb-8 text-center">$ ls plugins/</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                <!-- Plugin Manager -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">lazy.nvim</h4>
+                    <p class="text-gray-400 text-xs">Modern plugin manager with lazy loading</p>
+                </div>
+
+                <!-- LSP -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">nvim-lspconfig</h4>
+                    <p class="text-gray-400 text-xs">Language Server Protocol configuration</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">mason.nvim</h4>
+                    <p class="text-gray-400 text-xs">LSP server installer and manager</p>
+                </div>
+
+                <!-- File Navigation -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">telescope.nvim</h4>
+                    <p class="text-gray-400 text-xs">Fuzzy finder for files, buffers, grep</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">nvim-tree.lua</h4>
+                    <p class="text-gray-400 text-xs">File tree explorer with Git integration</p>
+                </div>
+
+                <!-- Syntax & Trees -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">nvim-treesitter</h4>
+                    <p class="text-gray-400 text-xs">Advanced syntax highlighting and parsing</p>
+                </div>
+
+                <!-- Completion -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">nvim-cmp</h4>
+                    <p class="text-gray-400 text-xs">Auto-completion engine</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">LuaSnip</h4>
+                    <p class="text-gray-400 text-xs">Snippet engine for Neovim</p>
+                </div>
+
+                <!-- Git -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">lazygit.nvim</h4>
+                    <p class="text-gray-400 text-xs">Git integration with terminal UI</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">gitsigns.nvim</h4>
+                    <p class="text-gray-400 text-xs">Git signs in gutter</p>
+                </div>
+
+                <!-- UI Enhancement -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">alpha-nvim</h4>
+                    <p class="text-gray-400 text-xs">Beautiful startup dashboard</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">lualine.nvim</h4>
+                    <p class="text-gray-400 text-xs">Customizable status line</p>
+                </div>
+
+                <!-- Formatting -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">null-ls.nvim</h4>
+                    <p class="text-gray-400 text-xs">Formatting and diagnostics</p>
+                </div>
+
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-4">
+                    <h4 class="text-green-500 font-mono text-sm mb-2">prettier.nvim</h4>
+                    <p class="text-gray-400 text-xs">Prettier formatting integration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Mappings Section -->
+    <section id="mappings" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl font-mono text-green-500 mb-8 text-center">$ cat keymaps.vim</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Essential Mappings -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-6">
+                    <h3 class="text-xl font-mono text-green-500 mb-4">Essential Key Mappings</h3>
+                    <div class="space-y-3 text-sm"
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;w</span>
+                            <span class="text-gray-300">Save file</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;e</span>
+                            <span class="text-gray-300">Toggle file explorer</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;f</span>
+                            <span class="text-gray-300">Find files (Telescope)</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">gd</span>
+                            <span class="text-gray-300">Go to definition</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2"
+                            <span class="text-green-500 font-mono">Tab</span>
+                            <span class="text-gray-300">Next buffer</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">S-Tab</span>
+                            <span class="text-gray-300">Previous buffer</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-green-500 font-mono">jk</span>
+                            <span class="text-gray-300">Exit insert mode</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Golang Mappings -->
+                <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-6">
+                    <h3 class="text-xl font-mono text-green-500 mb-4">Go Development</h3>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;tt</span>
+                            <span class="text-gray-300">Run all tests</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b border-neutral-700 pb-2">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;tn</span>
+                            <span class="text-gray-300">Run nearest test</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-green-500 font-mono">&lt;leader&gt;tc</span>
+                            <span class="text-gray-300">Toggle test coverage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Section -->
+    <section id="github" class="py-20 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <h2 class="text-3xl font-mono text-green-500 mb-8">$ git clone --depth 1</h2>
+            <div class="bg-neutral-800 border border-neutral-700 rounded-lg p-8 max-w-2xl mx-auto">
+                <div class="space-y-6">
+                    <div class="code-block">
+                        <code class="language-bash">git clone git@github.com:eczdell/eczvim.git ~/.config/nvim</code>
+                    </div>
+                    <div class="mt-4">
+                        <a href="https://github.com/eczdell/eczvim" target="_blank" class="bg-green-500 text-neutral-900 px-6 py-3 rounded-lg font-mono hover:bg-green-400 transition-colors">
+                            <i class="fab fa-github mr-2"></i>View on GitHub
+                        </a>
+                    </div>
+                    <p class="text-gray-400 text-sm mt-4">
+                        Personal Neovim configuration - crafted for efficient development
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-neutral-800 py-6 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-400 font-mono text-sm">
+                eczvim@site:~$ echo "Happy coding! 🚀"
+            </p>
+        </div>
+    </footer>
+
+    <!-- Smooth scroll behavior -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add active class to navigation based on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('text-green-500');
+                link.classList.add('text-gray-300');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.remove('text-gray-300');
+                    link.classList.add('text-green-500');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
